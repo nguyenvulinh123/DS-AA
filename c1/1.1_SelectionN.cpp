@@ -19,7 +19,7 @@ void sort (int arr[], int N)
 
 int find_Kth_Element (int arr[], int N, int k)
 {
-    if (k > N)
+    if (k > N - 1)
         return -1;
     else {
         sort (arr, N);
