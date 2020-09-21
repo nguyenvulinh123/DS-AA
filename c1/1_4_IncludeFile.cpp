@@ -33,6 +33,7 @@ bool processFile (string file_in, string file_out)
                    }
                    
                }
+               ifInclude.close();
             }
             else {
                 ofs << line << "\n";
