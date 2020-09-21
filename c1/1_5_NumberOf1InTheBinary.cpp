@@ -2,14 +2,11 @@
 
 int numbersOf1InBinary(int n)
 {
-    if (n == 0)
+    if (n == 0 || n== 1)
     {
-        return 0;
+        return n;
     }
-    else if (n == 1)
-    {
-        return 1;
-    } else {
+    else {
         return (n%2 == 0) ? numbersOf1InBinary(n/2) : numbersOf1InBinary(n/2) + 1; 
     }
 }
