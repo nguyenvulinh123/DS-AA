@@ -14,6 +14,15 @@ class List {
         List () : size(0) {
             head = nullptr;
         }
+        ~List() {
+            Node<T> *tmp;
+            while (head) 
+            {
+                tmp = head;
+                head = head->next;
+                delete tmp;
+            }
+        }
         void push_back (Node<T> *& node)
         {
             size++;
