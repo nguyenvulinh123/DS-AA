@@ -59,25 +59,21 @@ class DouleLinkList {
             head = tmp;
 
         } else {
-            // // node -> N1 -> N2 ->
-            // Node<T> * node = head;
-            // while (start_index > 1)
-            // {
-            //     start_index--;
-            //     node = node->next;
-            // }
-            // Node<T> * tmp = node->next;
-            // // swap two adjacents, increase 2 - 1 for swap more than 2 adjacent elements
-            // for (int i = 0; i < 2 - 1; ++i)
-            // {
-            //     tmp = tmp->next;
-            //     tmp->next = tmp->prev;
-            //     tmp->prev = tmp;
-            //     tmp = tmp->prev;
-            // }
+            // node -> N1 -> N2 ->
+            Node<T> * tmp = head;
+            while (start_index > 1)
+            {
+                start_index--;
+                tmp = tmp->next;
+            }
+            Node<T> * node = tmp->next;
+            tmp->next = node->next;
+            node->next = tmp->next->next;
+            tmp->next->next = node;
 
-            // node->next = tmp;
-            // tmp->prev = node;
+            node->prev = tmp->next;
+            node->next->prev = node;
+            tmp->next->prev = tmp;
         }
     }
     void print ()
