@@ -14,9 +14,24 @@ struct Node {
 template <typename T>
 class CircleLinkedList {
     public:
-    CircleLinkedList () { head = nullptr;}
-    ~CircleLinkedList () {}
+    CircleLinkedList () : size(0) { head = nullptr;}
+    ~CircleLinkedList () {
+        if (head->next == head)
+        {
+            delete head;
+        } else {
+            Node<T> * del = head;
+            Node<T> * tmp = head;
+            while (tmp != head)
+            {
+                del = tmp;
+                tmp = tmp->next;
+                delete del;
+            }
+        }
+    }
     void insert (T t) {
+        ++size;
         Node<T> *node = new Node<T> (t);
         if (!head){
             head = node;
@@ -44,8 +59,12 @@ class CircleLinkedList {
         } while (tmp != head);
         printf ("\n");
     }
+    void erase () {
+        --size;
+    }
     private:
     Node<T> * head;
+    unsigned size;
 };
 
 int main(int argc, char* argv[])
