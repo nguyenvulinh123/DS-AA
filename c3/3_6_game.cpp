@@ -46,6 +46,30 @@ class CircleLinkedList {
             node->next = head;
         }
     }
+    void erase (int index) {
+        Node<T> *tmp = head;
+        if (index == 0)
+        {
+            int tmp_size = size;
+            while (tmp_size > 1) {
+                --tmp_size;
+                tmp = tmp->next;
+            }
+            tmp->next = tmp->next->next;
+            tmp = head;
+            head = head->next;
+            delete tmp;
+        } else {        
+            while (index > 1){
+                --index;
+                tmp = tmp->next;
+            }
+            Node<T> * node = tmp->next;
+            tmp->next = tmp->next->next;
+            delete node;
+        }
+        --size;
+    }
     void print () {
         printf ("CircleLinkedList = \t");
         if (head == nullptr){
@@ -59,9 +83,6 @@ class CircleLinkedList {
         } while (tmp != head);
         printf ("\n");
     }
-    void erase () {
-        --size;
-    }
     private:
     Node<T> * head;
     unsigned size;
@@ -70,12 +91,18 @@ class CircleLinkedList {
 int main(int argc, char* argv[])
 {
     CircleLinkedList<int> cl;
-    int input;
-    do {
-        printf ("Enter list element: \t");
-        std::cin >> input;
-        cl.insert(input);
-    } while (input != -1);
+    int N, M, key;
+    printf ("Enter N people: ");
+    scanf ("%d", &N);
+    printf ("Enter M: ");
+    scanf ("%d", &M);
+    printf ("Enter %d element: ", N);
+    for (int i = 0; i < N; ++i)
+    {
+        scanf ("%d", &key);
+        cl.insert(key);
+    }
+    cl.erase(0);
     cl.print();
     return 0;
 }
