@@ -5,10 +5,12 @@ template <typename T>
 struct Node {
     T data;
     Node *next;
+    Node * prev;
     explicit Node (T t)
     {
         data = t;
         next = nullptr;
+        prev = nullptr;
     }
 };
 template <typename T>
@@ -34,8 +36,9 @@ class CircleLinkedList {
         ++size;
         Node<T> *node = new Node<T> (t);
         if (!head){
+            node->next = node;
+            node->prev = node;
             head = node;
-            node->next = head;
         } else {
             Node<T> *tmp = head;
             while (tmp->next != head)
@@ -44,34 +47,33 @@ class CircleLinkedList {
             }
             tmp->next = node;
             node->next = head;
+            node->prev = tmp;
+            head->prev = node;
         }
     }
     void erase (int index) {
+        printf ("erase element : %d\n", index);
         Node<T> *tmp = head;
         if (index == 0)
         {
-            int tmp_size = size;
-            while (tmp_size > 1) {
-                --tmp_size;
-                tmp = tmp->next;
-            }
-            tmp->next = tmp->next->next;
-            tmp = head;
-            head = head->next;
+            tmp->next->prev = tmp->prev;
+            tmp->prev->next = tmp->next;
+            head = tmp->next;
             delete tmp;
         } else {        
-            while (index > 1){
+            while (index > 0){
                 --index;
                 tmp = tmp->next;
             }
-            Node<T> * node = tmp->next;
-            tmp->next = tmp->next->next;
-            delete node;
+            Node<T> * del = tmp;
+            tmp->next->prev = tmp->prev;
+            tmp->prev->next = tmp->next;
+            delete del;
         }
         --size;
     }
-    void print () {
-        printf ("CircleLinkedList = \t");
+    void print_by_next () {
+        printf ("print_by_next CircleLinkedList = \t");
         if (head == nullptr){
             printf ("\n");
             return;
@@ -81,6 +83,44 @@ class CircleLinkedList {
             printf ("%d\t", tmp->data);
             tmp = tmp->next;
         } while (tmp != head);
+        printf ("\n");
+    }
+    void print_by_prev () {
+        printf ("print_by_next CircleLinkedList = \t");
+        if (head == nullptr){
+            printf ("\n");
+            return;
+        }
+        Node<T> *tmp = head;
+        do {
+            printf ("%d\t", tmp->data);
+            tmp = tmp->prev;
+        } while (tmp != head);
+        printf ("\n");
+    }
+    void josephusGame (int M) 
+    {
+        printf ("JosephusGame delete order: size(%d) \t", size);
+        Node<T> *node = head;
+        while (size > 1)
+        {
+            for (int i = 0; i < M; ++i)
+            {
+                node = node->next;
+            }
+            Node<T> *del = node;
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+            node = node->next;
+            if (del == head) {
+                head->next->prev = head->prev;
+                head->prev->next = head->next;
+                head = head->next;
+            }
+            printf ("%d\t", del->data);
+            delete del;
+            --size;
+        }
         printf ("\n");
     }
     private:
@@ -102,7 +142,8 @@ int main(int argc, char* argv[])
         scanf ("%d", &key);
         cl.insert(key);
     }
-    cl.erase(0);
-    cl.print();
+    cl.josephusGame(M);
+    cl.print_by_next();
+    cl.print_by_prev();
     return 0;
 }
