@@ -147,3 +147,7 @@ int main(int argc, char* argv[])
     cl.print_by_prev();
     return 0;
 }
+/*
+   3.6 b) running time: NxM
+       c) for M = 1, running time is N 
+*/
