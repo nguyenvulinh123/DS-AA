@@ -44,6 +44,19 @@ class SortedList {
             tmp->next = node;
         }
     }
+    int check (T t) {
+        Node <T> * tmp = _head;
+        int count = 0;
+        while (tmp) {
+            if (tmp->data == t){
+                std::cout << "printf found at index: " << count << "\n";
+                return count;
+            } 
+            tmp = tmp->next;
+            count++;
+        }
+        return -1;
+    }
     unsigned size () {return _size;}
     void printf_list () {
         std::cout << "printf list: \t";
@@ -63,5 +76,8 @@ class SortedList {
 
 int main(int argc, char* argv[]){
     SortedList<int> sort_list {1, 5, 4, 2, 3, 0};
+    sort_list.insert(-1);
+    sort_list.insert(2);
+    sort_list.check(4);
     sort_list.printf_list();
 }
