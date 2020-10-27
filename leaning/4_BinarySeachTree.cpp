@@ -20,13 +20,23 @@ class BinarySearchTree {
     }
 
     const Comparable & findMin () const {
-   
+        if (root == nullptr)
+            return nullptr;
+        BinaryNode * tmp = root;
+        while (tmp->left) {
+            tmp = tmp->left;
+        }
+        return tmp->element;
     }
     const Comparable & findMax () const {
-   
+        if (root == nullptr)
+            return nullptr;
+        if (root->right == nullptr)
+            return root->element;
+        return findMax (root->right);
     }   
     bool contains (const Comparable &rhs) const {
-        return false;
+        return contains (rhs, root);
     }
     bool isEmpty() const {
         return false;
@@ -38,13 +48,13 @@ class BinarySearchTree {
 
     }
     void insert (const Comparable & rhs) {
-
+        insert(rhs, root);
     }
     void insert (Comparable &&rhs) {
-
+        insert (rhs, root);
     }
     void remove (const Comparable &rhs) {
-
+        remove (rhs, root);
     }
     BinarySearchTree operator= (const BinarySearchTree &rhs) {
 
@@ -79,8 +89,16 @@ class BinarySearchTree {
     BinaryNode * findMax (BinarySearchTree & t) const {
 
     }
-    bool contains (const Comparable & rhs, BinarySearchTree *& t) const {
-        return -1;
+    bool contains (const Comparable & rhs, BinaryNode *& t) const {
+        if (t == nullptr)
+            return false;
+        if (t->element == rhs) {
+            return true;
+        } else if (rhs < t->element) {
+            return contains (rhs, t->right);
+        } else {
+            return contains (rhs, t->left);
+        }
     }
     void makeEmpty(BinarySearchTree *& t) {
 
